@@ -1,3 +1,4 @@
+
 mod class2;
 struct Point{
     x:i32,
@@ -20,7 +21,6 @@ fn main() {
 
 
 }
-
 
 fn coordinates(Point{x,y}: Point){
     println!("x ={}, y ={}",x,y)
