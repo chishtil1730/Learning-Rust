@@ -19,6 +19,8 @@ fn main() {
     println!("");
     class2::get_data();
 
+    let y = class2::print_data(1.2,3);
+    println!("Float sum: {}",y);
 
 }
 
