@@ -14,6 +14,14 @@ fn main() {
 
     arrays::print_array(arr);
     println!("printed array:{:?} of length:{}",arr2,arr2.len());
+
+    let _s : &str = "hello world";
+
+    let mut name = String::from("Chishti");
+    name.push_str("Shaik");
+
+    println!("{name}");
+
 }
 
 fn basics_stuff() {
