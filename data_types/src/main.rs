@@ -1,4 +1,5 @@
 mod strings;
+mod arrays;
 
 fn main() {
     println!("From data types cargo");
@@ -32,4 +33,10 @@ fn main() {
 
     strings::strings();
 
+    let arr =arrays::arrays();
+
+    let arr2 : [&str;2] = ["abcd","efgh"];
+
+    arrays::print_array(arr);
+    println!("printed array:{:?} of length:{}",arr2,arr2.len());
 }
