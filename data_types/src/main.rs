@@ -1,4 +1,4 @@
-mod data_types;
+mod strings;
 
 fn main() {
     println!("From data types cargo");
@@ -29,5 +29,7 @@ fn main() {
     println!("Type casted into decimal: {}",decimal);
 
     println!("{}", string);
+
+    strings::strings();
 
 }

@@ -1,1 +1,1 @@
-C:\Users\LENOVO\RustroverProjects\Rust2\data_types\target\debug\data_types.exe: C:\Users\LENOVO\RustroverProjects\Rust2\data_types\src\data_types.rs C:\Users\LENOVO\RustroverProjects\Rust2\data_types\src\main.rs
+C:\Users\LENOVO\RustroverProjects\Rust2\data_types\target\debug\data_types.exe: C:\Users\LENOVO\RustroverProjects\Rust2\data_types\src\main.rs C:\Users\LENOVO\RustroverProjects\Rust2\data_types\src\strings.rs
