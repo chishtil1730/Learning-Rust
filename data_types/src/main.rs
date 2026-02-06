@@ -1,3 +1,5 @@
+use std::str::Chars;
+
 mod strings;
 mod arrays;
 
@@ -21,6 +23,19 @@ fn main() {
     name.push_str("Shaik");
 
     println!("{name}");
+
+    let function_returning_str = strings();
+    println!("Returned from function: {:?}", function_returning_str);
+
+    let str1  = "Sambar";
+    let str2 = " Vada";
+
+    let append = append(&str1,&str2);
+    println!("{append}");
+
+    let f_name = &mut String::from("Sixty");
+    add_string(f_name,"boy");
+    println!("{f_name}");
 
 }
 
@@ -52,3 +67,30 @@ fn basics_stuff() {
 
     println!("{}", string);
 }
+
+//chars is borrowed, so it's lifetime ends at the end of function
+//To remove this, we can add ownership by returning a vector by collect() method.
+fn strings() -> Vec<char>{
+    let mut name = String::from("Chishti");
+    name.push_str(" Shaik");
+    let chars:Chars = name.chars();
+
+    let ref_name : &str = &name;
+
+    println!("{:?}",chars);
+    println!("{}", ref_name);
+
+    chars.collect()
+}
+
+fn append(x:&str, y:&str) -> String{
+    let mut s = String::from("");
+    s.push_str(x);
+    s.push_str(y);
+    s
+}
+
+fn add_string(x:&mut String,y:&str){
+    x.push_str(y);
+}
+
