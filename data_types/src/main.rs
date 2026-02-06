@@ -37,6 +37,27 @@ fn main() {
     add_string(f_name,"boy");
     println!("{f_name}");
 
+    let t = ([1,2,3],[4,5,6]);
+
+    // Modify this line only, don't use `_s`
+    for i in [t.0,t.1]{
+        for j in 0..3{
+            print!("{} ",i[j])
+        }
+        println!();
+    }
+
+    let (ref s1, ref s2) = t;
+
+    println!("{:?} {:?} {:?}",s1,s2,t);
+    print!("{}\n",s1[0]);
+
+    let string = String::from("Chutney");
+
+    for i in string.chars(){
+        print!("{}",i);
+    }
+
 }
 
 fn basics_stuff() {
