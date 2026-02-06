@@ -58,6 +58,45 @@ fn main() {
         print!("{}",i);
     }
 
+    let arr = [1, 2, 3];
+    let s1:&[i32] = &arr[0..2];
+
+    let s2: &str = "hello, world";
+
+    println!("\nSuccess! {:?}{:?}",s1,s2);
+
+    let arr: [i32; 5] = [1, 2, 3, 4, 5];
+    // Fill the blanks to make the code work
+    //let slice:__ = __;
+    let slice:&[i32] = &arr[1..4];
+    assert_eq!(slice, &[2, 3, 4]);
+    println!("{:?}", slice);
+
+    println!("Success!");
+
+
+    /*
+
+fn main() {
+    let s = "你好，世界";
+    // Modify this line to make the code work
+    let slice = &s[0..2];
+
+    assert!(slice == "你");
+
+    println!("Success!");
+}
+     */
+
+    let s = "你好，世界";
+
+    // "你" is 3 bytes long in UTF-8
+    let slice = &s[0..3];
+
+    assert!(slice == "你");
+
+    println!("Success!");
+
 }
 
 fn basics_stuff() {
