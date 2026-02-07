@@ -18,7 +18,6 @@ use std::time::Instant;
 | `lifetime` | Lifetime                            | `'a`, `'static`             |
 | `vis`      | Visibility                          | `pub`, `pub(crate)`         |
 | `literal`  | Literal values                      | `"hi"`, `42`, `true`        |
-
  */
 
 mod strings;
@@ -75,7 +74,14 @@ c => d,
 
 a valid syntax
  */
-
+macro_rules! init_hmap {
+    ($hamp:expr, $($key:expr => $val:expr),* $(,)*) => {{
+        $(
+            $hamp.insert($key, $val);
+        )*
+        $hamp
+    }};
+}
 
 //macro to calculate execution time:
 macro_rules! benchmark {
@@ -90,6 +96,7 @@ macro_rules! benchmark {
     };
 }
 
+//initializing using macros
 macro_rules! init_vec {
     ($vec:expr, $($val:expr),*)=>{
         $(
@@ -97,6 +104,17 @@ macro_rules! init_vec {
         )*
     }
 }
+
+macro_rules! init_vec2 {
+    ($($val:expr),* $(,)*) => {
+        {
+            let mut vec = Vec::new();
+            $(vec.push($val);)*
+            vec
+        }
+    };
+}
+
 
 fn main() {
     let st = Instant::now();
@@ -124,6 +142,11 @@ fn main() {
     vec.sort();
     println!("{:?}",vec);
 
+    let vec2 = init_vec2!(1,2,3,4);
+    println!("{:?}",vec2);
+
+    let mut hmap = HashMap::new();
+    init_hmap!(hmap, "id" => 1, "score" => 100);
 
     println!("This is my map {:?}",map);
 
