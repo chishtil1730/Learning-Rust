@@ -1,23 +1,119 @@
 use std::str::Chars;
+use std::collections::HashMap;
+
+//fragment specifiers:
+/*
+| Specifier  | What it Matches                     | Example                     |
+| ---------- | ----------------------------------- | --------------------------- |
+| `ident`    | Identifier (variable/function name) | `x`, `sum`, `my_var`        |
+| `expr`     | Expression                          | `a + b`, `5`, `foo()`       |
+| `stmt`     | Statement                           | `let x = 5;`                |
+| `block`    | Block of code                       | `{ x + 1 }`                 |
+| `pat`      | Pattern (used in match)             | `Some(x)`, `x`, `_`         |
+| `ty`       | Type                                | `i32`, `String`, `Vec<i32>` |
+| `path`     | Path                                | `std::io::Read`             |
+| `meta`     | Attribute metadata                  | `derive(Debug)`             |
+| `tt`       | Token tree (any tokens)             | `+`, `=>`, `{}`             |
+| `item`     | Item                                | `fn`, `struct`, `enum`      |
+| `lifetime` | Lifetime                            | `'a`, `'static`             |
+| `vis`      | Visibility                          | `pub`, `pub(crate)`         |
+| `literal`  | Literal values                      | `"hi"`, `42`, `true`        |
+
+ */
 
 mod strings;
 mod arrays;
 
+macro_rules! new {
+    ($a:expr, $b:expr)/*signature*/ => {
+        //Code that will be executed during run time
+        println!("Hey, from new macro{}",($a+$b))
+    };
+}
+
+//creating a variable
+macro_rules! create_var {
+    ($var_name:ident) => {
+        let $var_name = 42;
+    };
+}
+
+//Macro with 1 or more argument like method overloading
+macro_rules! overload_macro {
+    ($name:expr) => {println!("{}",$name)};
+
+    ($name:expr,$message:expr) => {println!("{},{}",$message,$name)};
+}
+
+//creating a hashmap and initialize it.{import hashmaps first form collection}
+//Using repetition
+//They are hygienic => meaning they do not conflict with
+// variable names form the surroundings
+/*
+Example :
+Even if user writes:
+
+let h_map = 100;
+let map = create_hashmap! { "a" => 1 };
+
+There is no collision, because macro variables are hygienic.
+ */
+macro_rules! create_hashmap {
+    ($($key:expr => $value:expr),* $(,)?) => {
+        {
+            let mut h_map = HashMap::new();
+            $(h_map.insert($key,$value);)* h_map
+        }
+    };
+}
+// $(..),* => for repeating things.
+// $(,)? => allows one optional comma (",")
+/*
+//It makes
+a => b,
+c => d,
+
+a valid syntax
+ */
+
+
+
 fn main() {
+    basics_two();
+    rusty_problems();
+
+    //Macros
+    new!(1,25);
+
+    create_var!(new_string);
+    println!("This is my new_string {}",new_string);
+    overload_macro!("Chishti");
+    overload_macro!("chishti","my message");
+
+    let map = create_hashmap!{
+        "k" => 1,
+        "k2" => 2
+    };
+
+    println!("This is my map {:?}",map);
+
+}
+
+pub fn basics_two() {
     println!("From data types cargo");
 
     basics_stuff();
 
     strings::strings();
 
-    let arr =arrays::arrays();
+    let arr = arrays::arrays();
 
-    let arr2 : [&str;2] = ["abcd","efgh"];
+    let arr2: [&str; 2] = ["abcd", "efgh"];
 
     arrays::print_array(arr);
-    println!("printed array:{:?} of length:{}",arr2,arr2.len());
+    println!("printed array:{:?} of length:{}", arr2, arr2.len());
 
-    let _s : &str = "hello world";
+    let _s: &str = "hello world";
 
     let mut name = String::from("Chishti");
     name.push_str("Shaik");
@@ -27,48 +123,50 @@ fn main() {
     let function_returning_str = strings();
     println!("Returned from function: {:?}", function_returning_str);
 
-    let str1  = "Sambar";
+    let str1 = "Sambar";
     let str2 = " Vada";
 
-    let append = append(&str1,&str2);
+    let append = append(&str1, &str2);
     println!("{append}");
 
     let f_name = &mut String::from("Sixty");
-    add_string(f_name,"boy");
+    add_string(f_name, "boy");
     println!("{f_name}");
+}
 
-    let t = ([1,2,3],[4,5,6]);
+pub fn rusty_problems() {
+    let t = ([1, 2, 3], [4, 5, 6]);
 
     // Modify this line only, don't use `_s`
-    for i in [t.0,t.1]{
-        for j in 0..3{
-            print!("{} ",i[j])
+    for i in [t.0, t.1] {
+        for j in 0..3 {
+            print!("{} ", i[j])
         }
         println!();
     }
 
     let (ref s1, ref s2) = t;
 
-    println!("{:?} {:?} {:?}",s1,s2,t);
-    print!("{}\n",s1[0]);
+    println!("{:?} {:?} {:?}", s1, s2, t);
+    print!("{}\n", s1[0]);
 
     let string = String::from("Chutney");
 
-    for i in string.chars(){
-        print!("{}",i);
+    for i in string.chars() {
+        print!("{}", i);
     }
 
     let arr = [1, 2, 3];
-    let s1:&[i32] = &arr[0..2];
+    let s1: &[i32] = &arr[0..2];
 
     let s2: &str = "hello, world";
 
-    println!("\nSuccess! {:?}{:?}",s1,s2);
+    println!("\nSuccess! {:?}{:?}", s1, s2);
 
     let arr: [i32; 5] = [1, 2, 3, 4, 5];
     // Fill the blanks to make the code work
     //let slice:__ = __;
-    let slice:&[i32] = &arr[1..4];
+    let slice: &[i32] = &arr[1..4];
     assert_eq!(slice, &[2, 3, 4]);
     println!("{:?}", slice);
 
@@ -104,7 +202,6 @@ fn main() {
     let var2 = no_ref(sr);
 
     println!("{}", var2);
-
 }
 
 fn basics_stuff() {
