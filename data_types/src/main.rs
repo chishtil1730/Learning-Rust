@@ -90,6 +90,13 @@ macro_rules! benchmark {
     };
 }
 
+macro_rules! init_vec {
+    ($vec:expr, $($val:expr),*)=>{
+        $(
+        $vec.push($val);
+        )*
+    }
+}
 
 fn main() {
     let st = Instant::now();
@@ -110,6 +117,12 @@ fn main() {
     benchmark!("calculate_et",{
         new!(1,25);
     });
+    let mut vec = Vec::new();
+    init_vec!(vec,12,3,48,1,4,67);
+    println!("{:?}", vec);
+
+    vec.sort();
+    println!("{:?}",vec);
 
 
     println!("This is my map {:?}",map);
