@@ -97,6 +97,14 @@ fn main() {
 
     println!("Success!");
 
+    let sr = String::from("A Normal String");
+
+    get_ref(&sr);
+    println!("Success!");
+    let var2 = no_ref(sr);
+
+    println!("{}", var2);
+
 }
 
 fn basics_stuff() {
@@ -154,3 +162,11 @@ fn add_string(x:&mut String,y:&str){
     x.push_str(y);
 }
 
+fn get_ref(var:&String){
+    println!("{}",var);
+}
+
+fn no_ref(var:String)->String{
+    println!("{}",var);
+    var
+}
