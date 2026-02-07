@@ -1,6 +1,6 @@
 use std::str::Chars;
 use std::collections::HashMap;
-
+use std::time::Instant;
 //fragment specifiers:
 /*
 | Specifier  | What it Matches                     | Example                     |
@@ -77,14 +77,26 @@ a valid syntax
  */
 
 
+//macro to calculate execution time:
+macro_rules! benchmark {
+    ($name:expr, $code_block:block) => {
+        {
+            let start = Instant::now();
+            let result = $code_block;
+            let duration = start.elapsed();
+            println!("{} took {:?}", $name, duration);
+            result
+        }
+    };
+}
+
 
 fn main() {
+    let st = Instant::now();
     basics_two();
     rusty_problems();
 
     //Macros
-    new!(1,25);
-
     create_var!(new_string);
     println!("This is my new_string {}",new_string);
     overload_macro!("Chishti");
@@ -95,7 +107,15 @@ fn main() {
         "k2" => 2
     };
 
+    benchmark!("calculate_et",{
+        new!(1,25);
+    });
+
+
     println!("This is my map {:?}",map);
+
+    let et = st.elapsed();
+    println!("Elapsed time {:?}\u{03BC}s",et.as_micros());
 
 }
 
