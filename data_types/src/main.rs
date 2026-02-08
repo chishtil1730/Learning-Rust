@@ -98,11 +98,35 @@ macro_rules! benchmark {
 
 //initializing using macros
 macro_rules! init_vec {
-    ($vec:expr, $($val:expr),*)=>{
+    ( keyword $vec:expr,$($val:expr),*) => {
         $(
         $vec.push($val);
         )*
-    }
+    };
+
+    ($($val:expr),* $(,)*) => {
+        {
+            let mut vec = Vec::new();
+            $(vec.push($val);)*
+            vec
+        }
+    };
+}
+
+//Using custom keywords:
+macro_rules! vec_init_overload {
+    ($($val:expr),* $(,)*) => {
+        {
+            let mut vec =Vec::new();
+            $(vec.push($val);)*
+            vec
+        }
+    };
+    (keyword $vec:expr, $($val:expr),*) => {
+        $(
+          $vec.push($val);
+        )*
+    };
 }
 
 macro_rules! init_vec2 {
@@ -114,6 +138,7 @@ macro_rules! init_vec2 {
         }
     };
 }
+
 
 
 fn main() {
@@ -136,14 +161,27 @@ fn main() {
         new!(1,25);
     });
     let mut vec = Vec::new();
-    init_vec!(vec,12,3,48,1,4,67);
-    println!("{:?}", vec);
+    init_vec!(keyword vec,12,3,48,1,4,67);
+    println!("vec from keyword: {:?}", vec);
 
     vec.sort();
     println!("{:?}",vec);
 
     let vec2 = init_vec2!(1,2,3,4);
     println!("{:?}",vec2);
+
+    let vec3 = init_vec!(1,2,3,4);
+    println!("vec3: {:?}",vec3);
+
+
+    let vector2 = vec_init_overload!(1,2,3,4,5);
+    println!("vector2: {:?}",vector2);
+
+    let mut vector3 = Vec::new();
+    vec_init_overload!(keyword vector3,241,241424);
+    println!("vector3: {:?}",vector3);
+
+
 
     let mut hmap = HashMap::new();
     init_hmap!(hmap, "id" => 1, "score" => 100);
