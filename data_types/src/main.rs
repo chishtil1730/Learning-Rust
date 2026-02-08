@@ -140,19 +140,63 @@ macro_rules! init_vec2 {
 }
 
 
+//Structs
+struct Person{
+    first_name: String,
+    last_name: String,
+}
+
+impl Person {
+    fn print_details(&self) {
+        println!("Hello!! {}, {}", self.last_name, self.first_name)
+    }
+}
+
+enum Store{
+    ExitTime,
+    Manager(Person),
+}
+
+
 
 fn main() {
     let st = Instant::now();
-    basics_two();
-    rusty_problems();
+    //basics_two();
+    //rusty_problems();
+    //macros();
 
+    //Structs:
+    let guy = Person{first_name: String::from("Chishti"),last_name:String::from("Shaik")};
+    guy.print_details();
+    let et = st.elapsed();
+
+    //Enums
+    let guy = Store::Manager(Person{first_name:String::from("Chishti"),last_name:String::from("Shaik")});
+    let time = Store::ExitTime;
+
+    process_store(guy);
+    process_store(time);
+
+
+
+    println!("Elapsed time {:?}\u{03BC}s",et.as_micros());
+}
+
+fn process_store(p:Store){
+    match p {
+        Store::ExitTime => {println!("Exiting");},
+        Store::Manager(person) => { println!("{}",person.last_name);}
+    }
+}
+
+pub fn macros() {
     //Macros
     create_var!(new_string);
-    println!("This is my new_string {}",new_string);
+    println!("This is my new_string {}", new_string);
     overload_macro!("Chishti");
     overload_macro!("chishti","my message");
 
-    let map = create_hashmap!{
+    let map = create_hashmap! {
         "k" => 1,
         "k2" => 2
     };
@@ -165,32 +209,27 @@ fn main() {
     println!("vec from keyword: {:?}", vec);
 
     vec.sort();
-    println!("{:?}",vec);
+    println!("{:?}", vec);
 
     let vec2 = init_vec2!(1,2,3,4);
-    println!("{:?}",vec2);
+    println!("{:?}", vec2);
 
     let vec3 = init_vec!(1,2,3,4);
-    println!("vec3: {:?}",vec3);
+    println!("vec3: {:?}", vec3);
 
 
     let vector2 = vec_init_overload!(1,2,3,4,5);
-    println!("vector2: {:?}",vector2);
+    println!("vector2: {:?}", vector2);
 
     let mut vector3 = Vec::new();
     vec_init_overload!(keyword vector3,241,241424);
-    println!("vector3: {:?}",vector3);
-
+    println!("vector3: {:?}", vector3);
 
 
     let mut hmap = HashMap::new();
     init_hmap!(hmap, "id" => 1, "score" => 100);
 
-    println!("This is my map {:?}",map);
-
-    let et = st.elapsed();
-    println!("Elapsed time {:?}\u{03BC}s",et.as_micros());
-
+    println!("This is my map {:?}", map);
 }
 
 pub fn basics_two() {
